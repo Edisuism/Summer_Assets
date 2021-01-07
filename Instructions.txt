@@ -1,0 +1,141 @@
+Welcome to UTS FEIT's U@UNI Summer Program!
+
+In this document, you will find useful methods to use during the workshop. These have been structured to give you a basic understanding of what they do.
+If you wish to better understand what each method does behind the scenes, please refer to the unity documentation online. 
+Though it can be daunting to look at, it is an important step in improving your skills in games development and programming in general.
+
+_Code Hints
+NOTE: ~~ tildas will surround text that refers to what you will need to fill it with instead
+
+
+Do something when my hit box is collided with 
+    private void OnTriggerEnter2D(Collider2D collision) 
+    {
+        ~put the things you want to happen here~
+    }
+
+Find something else in the scene of a certain type 
+    FindObjectOfType<~put the type of object you want to find~>() 
+
+Move in a given direction 
+    transform.Translate(~put a vector3 or vector2 here~) 
+
+I want to get player input 
+    Input.GetAxisRaw("~put the axis you want to get input of here~”) 
+
+I want to set an object active or inactive 
+    gameObject.SetActive(~put false or true here~) 
+
+I want to print something 
+    Debug.Log("~put the message you want to print here~”) 
+
+I want to play a sound 
+    audioSource.Play() 
+
+I want to pause or unpause the game 
+    Time.timeScale = ~put 0 to pause the game, 1 to play the game at 1x speed and so forth~ 
+
+I want something to happen only if a certain condition is met 
+if ()
+{
+
+} 
+
+I want a random number between a min and a max number 
+    Random.Range(~put the min number here~, ~put the max number here~) 
+
+I want to delete an object 
+    Destroy(~put the gameobject you want to destroy here~); 
+
+
+
+_Code References
+NOTE: Feel free to copy paste the code from here into your project should you wish. Please ask if you are unsure where to put it
+
+__PlayerController 
+
+    private void Update() 
+
+    { 
+
+        // Calculate current movement speed. 
+
+        _speed = baseSpeed; 
+
+  
+
+        // Movement 
+
+        UpdateInput(); 
+
+        moveDirection = _input.normalized; 
+
+        translation = moveDirection * (_speed * Time.deltaTime); 
+
+        transform.Translate(translation); 
+
+    } 
+
+    __Health 
+
+    public bool DeductHealth() 
+
+    { 
+
+        if (rightHeart.activeInHierarchy) 
+
+        { 
+
+            rightHeart.SetActive(false); 
+
+            return false; 
+
+        } 
+
+        else if (middleHeart.activeInHierarchy) 
+
+        { 
+
+            middleHeart.SetActive(false); 
+
+            return false; 
+
+        } 
+
+        leftHeart.SetActive(false); 
+
+        return true; 
+
+    } 
+
+    __Spawner 
+
+void Start() 
+
+    { 
+
+        //Add all children transforms as potential spawn locations 
+
+        foreach(Transform child in transform) 
+
+        { 
+
+            spawnLocations.Add(child); 
+
+        } 
+
+        InvokeRepeating("SpawnEnemy", startTime, spawnRate); 
+
+    } 
+
+ 
+
+void SpawnEnemy() 
+
+    { 
+
+        //Spawns a random enemy type at a random spawn location 
+
+        Instantiate(enemyTypes[Random.Range(0, enemyTypes.Length)], spawnLocations[Random.Range(0, spawnLocations.Count)].position, Quaternion.identity); 
+
+    } 
